@@ -1,4 +1,4 @@
-//const keepAlive = require("./keepAlive.js");
+const keepAlive = require("./keepAlive.js");
 const { Client, GatewayIntentBits} = require('discord.js');
 const fs = require('node:fs');
 //const { REST } = require('@discordjs/rest');
