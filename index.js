@@ -145,8 +145,8 @@ client.on('messageCreate', message =>{
     }//closing brace for role check
 
 });
-const token = process.env['TOKEN']
-client.login(token);
+const TOKEN = process.env['TOKEN']
+client.login(TOKEN);
 
 //https://discord.js.org/#/docs/discord.js/main/general/welcome
 
