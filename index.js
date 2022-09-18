@@ -21,7 +21,7 @@ client.on("messageDelete", message =>{
 client.on('messageCreate', message =>{
     if(message.author.bot) {return;}
 
-    if(message.content.includes("@1017612126921166871")){
+    if(message.content.includes("@836766089505275954")){
         message.channel.send({files:["./imgs/pinged.gif"]}).catch;
     }
     
