@@ -5,7 +5,7 @@ const fs = require('node:fs');
 
 
 const client = new Client({ intents: [
-    GatewayIntentBits.Guilds,                                   GatewayIntentBits.GuildMessages,                            GatewayIntentBits.MessageContent,                           GatewayIntentBits.GuildPresences] });
+    GatewayIntentBits.Guilds,                                  GatewayIntentBits.GuildMessages,                           GatewayIntentBits.MessageContent,                          GatewayIntentBits.GuildPresences] });
 
 
 client.once('ready', () => {
@@ -116,7 +116,7 @@ client.on('messageCreate', message =>{
             //general response 
             if(respChoice == 69){
                 message.channel.send("haha Nice");
-            }else if(respChoice >10){
+            }else if(respChoice <10){
                 message.channel.send(message.content + " is a dumb fucking message");
             }else if (respChoice >= 10 && respChoice < 20){
                 message.channel.send("What the fuck did you just fucking say about me, you little bitch? I’ll have you know I graduated top of my class in the Navy Seals, and I’ve been involved in numerous secret raids on Al-Quaeda, and I have over 300 confirmed kills.");
@@ -146,16 +146,17 @@ client.on('messageCreate', message =>{
 
 });
 
-client.login(process.env['TOKEN_1']);
-//karp bot == token_1     test bot == token_2
-/*
-guild == server
-Guild.Memeber == ppl in server
+client.login(process.env['TOKEN']);
+
+//https://discord.js.org/#/docs/discord.js/main/general/welcome
 
 
-properties == describe something
-method == does something
 
-
-https://discord.js.org/#/docs/discord.js/main/general/welcome
+/* 
+PLANS:
+-add log for when response goes off
+-add name of user to deleted message (audit logs?)
+-add alt message to guys roles
+-add credit score system
+-add command to allow users to change eachother name (essentially bypass role priority)
 */
