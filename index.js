@@ -150,8 +150,20 @@ client.on('messageCreate', message =>{
     }//closing brace for role check
 
 });
-const TOKEN = process.env['TOKEN']
+const {TOKEN} = require ("./configT.json");
 client.login(TOKEN);
+/* 
+KARP:
+config.json
+id:836766089505275954
+
+TEST:
+configT.json
+id:1017612126921166871
+
+*/
+
+
 
 //https://discord.js.org/#/docs/discord.js/main/general/welcome
 
