@@ -23,6 +23,8 @@ client.on('messageCreate', message =>{
 
     if(message.content.includes("@836766089505275954")){
         message.channel.send({files:["./imgs/pinged.gif"]}).catch;
+    } else if (message.content.includes("@1017612126921166871")){
+        message.channel.send("tester bot is alive");
     }
     
     console.log(message.content);
