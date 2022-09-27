@@ -11,7 +11,8 @@ const { REST, SlashCommandBuilder, Routes } = require('discord.js');
 const { clientID, TOKEN } = require('./configT.json');
 
 const commands = [
-	new SlashCommandBuilder().setName('ping').setDescription('Replies with pong!')
+	new SlashCommandBuilder().setName('help').setDescription('list command names'),
+    new SlashCommandBuilder().setName('ping').setDescription('Replies with pong!')
 ]
 	.map(command => command.toJSON());
 

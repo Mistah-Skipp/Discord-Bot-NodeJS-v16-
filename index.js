@@ -17,19 +17,16 @@ client.once('ready', () => {
 client.on("messageDelete", message =>{
     if (message.author.bot) {return;}
         message.channel.send(message.member.user.username + " Has deleted message: \n"+message.content);
-});
+});//EOF MESSAGEDELETE
 
 client.on('messageCreate', message =>{
     if(message.author.bot) {return;}
+    let args = message.content.toLowerCase().split(" ");
 
     if(message.content.includes("@836766089505275954")){
         message.channel.send({files:["./imgs/pinged.gif"]}).catch;
-    } else if (message.content.includes("@1017612126921166871")){
-        message.channel.send("tester bot is alive");
     }
-    
     console.log(message.content);
-    let args = message.content.toLowerCase().split(" ");
     var cntr = 0;
     var length = message.content.length;
     //console.log(length);
@@ -49,12 +46,20 @@ client.on('messageCreate', message =>{
                 }
                 cntr++;
                 break;
+            case "/rename":
+                let pingedMember = message.mentions.members;
+                var userIDCache = pingedMember.firstKey();
+                var newName = message.guild.members.cache.get(userIDCache);
+                newName.setNickname(args[cntr+2]);
+                message.channel.send("done");
+                cntr++;
+                break;
             default:
                 cntr++;
                 break;
         }
-    }
-    
+    }//EOF ONE OFF RESPONSES
+    // RESPONSE CODE BELOW
     var chanceResp = Math.floor((Math.random() * 100) + 1);
     var respChoice = Math.floor((Math.random() * 100) + 1);
 
@@ -149,7 +154,7 @@ client.on('messageCreate', message =>{
             }
                
             
-        }//closing break on chance to respond
+        }//closing brace on chance to respond
     }//closing brace for role check
 
 });
@@ -160,16 +165,19 @@ client.on('interactionCreate', async interaction => {
 
 	if (commandName === 'ping') {
 		await interaction.reply('Pong!');
-	} else if (commandName === 'server') {
-		await interaction.reply('Server info.');
-	} else if (commandName === 'user') {
-		await interaction.reply('User info.');
-	}
+	} else if(commandName === 'help'){
+        await interaction.reply('ping: replys with pong\nrename: [@userToBeChanged] [newName]');
+    }
 });
 
 
 const {TOKEN} = require ("./configT.json");
+const { moveMessagePortToContext } = require("node:worker_threads");
 client.login(TOKEN);
+
+//FUNCTIONS
+
+
 /* 
 KARP:
 config.json
