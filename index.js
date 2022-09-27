@@ -78,7 +78,11 @@ client.on('messageCreate', message =>{
                     message.reply("go roll your "+ car +"th car");
                     break;
                case("163810266625081345")://BRYAN
-                    message.reply("Says the token gay guy");
+                    if(respChoice == 69){
+                        message.reply("god who let this cutie in?:heart_eyes::heart_eyes:")
+                    }   else {
+                        message.reply("Says the token gay guy");
+                    }  
                     break;
                 case("242037517241548801")://CHRIS
                     message.reply("I cant insult my wittle pogchamp");
