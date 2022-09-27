@@ -8,7 +8,7 @@ serverID: 293850706987974656
 
 */
 const { REST, SlashCommandBuilder, Routes } = require('discord.js');
-const { clientID, TOKEN } = require('./configT.json');
+const { clientID, TOKEN } = require('./config.json');
 
 const commands = [
 	new SlashCommandBuilder().setName('help').setDescription('list command names'),
