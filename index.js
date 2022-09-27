@@ -1,11 +1,23 @@
 const keepAlive = require("./keepAlive.js");
-const { Client, GatewayIntentBits} = require('discord.js');
+const { Client, GatewayIntentBits, Options, Collection} = require('discord.js');
 const fs = require('node:fs');
+const path = require('node:path');
 //const { REST } = require('@discordjs/rest');
 
-
 const client = new Client({ intents: [
-    GatewayIntentBits.Guilds,                                  GatewayIntentBits.GuildMessages,                           GatewayIntentBits.MessageContent,                          GatewayIntentBits.GuildPresences] });
+    GatewayIntentBits.Guilds,GatewayIntentBits.GuildMessages,GatewayIntentBits.MessageContent,GatewayIntentBits.GuildPresences] });
+
+client.commands = new Collection();
+const commandsPath = path.join(__dirname, 'commands');
+const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+	const filePath = path.join(commandsPath, file);
+	const command = require(filePath);
+	client.commands.set(command.data.name, command);
+}
+
+
 
 
 client.once('ready', () => {
@@ -161,23 +173,32 @@ client.on('messageCreate', message =>{
         }//closing brace on chance to respond
     }//closing brace for role check
 
-});
+});//EOF MESSAGECREATE
+
 client.on('interactionCreate', async interaction => {
 	if (!interaction.isChatInputCommand()) return;
 
-	const { commandName } = interaction;
+	const command = interaction.client.commands.get(interaction.commandName);
 
-	if (commandName === 'ping') {
-		await interaction.reply('Pong!');
-	} else if(commandName === 'help'){
-        await interaction.reply('ping: replys with pong\nrename: [@userToBeChanged] [newName]');
+    try{
+        await command.execute(interaction);
+    } catch(err) {
+        console.log(err);
+        await interaction.reply("error executing command");
     }
+
 });
 
+/*
+    client.login(process.env.TOKEN);
+    const { moveMessagePortToContext } = require("node:worker_threads");
+*/
+    const {TOKEN} = require ("./config.json");
+    client.login(TOKEN);
 
-//const {TOKEN} = require ("./configT.json");
-const { moveMessagePortToContext } = require("node:worker_threads");
-client.login(process.env.TOKEN);
+
+
+
 
 //FUNCTIONS
 
