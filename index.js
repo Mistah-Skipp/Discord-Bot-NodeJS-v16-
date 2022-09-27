@@ -11,6 +11,7 @@ const client = new Client({ intents: [
 client.once('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
     client.user.setStatus('online');
+    client.user.setActivity("type /help for commands")
 });
 
 client.on("messageDelete", message =>{
@@ -152,6 +153,21 @@ client.on('messageCreate', message =>{
     }//closing brace for role check
 
 });
+client.on('interactionCreate', async interaction => {
+	if (!interaction.isChatInputCommand()) return;
+
+	const { commandName } = interaction;
+
+	if (commandName === 'ping') {
+		await interaction.reply('Pong!');
+	} else if (commandName === 'server') {
+		await interaction.reply('Server info.');
+	} else if (commandName === 'user') {
+		await interaction.reply('User info.');
+	}
+});
+
+
 const {TOKEN} = require ("./configT.json");
 client.login(TOKEN);
 /* 
