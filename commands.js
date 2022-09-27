@@ -16,9 +16,9 @@ const commands = [
 ]
 	.map(command => command.toJSON());
 
-const rest = new REST({ version: '10' }).setToken(TOKEN);
+const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
 
 rest.put(
-	Routes.applicationCommands(clientID),
+	Routes.applicationCommands(process.env.clientID),
 	{ body: commands }).then(data => console.log(`Successfully registered ${data.length} application commands.`))
 	.catch(console.error);
