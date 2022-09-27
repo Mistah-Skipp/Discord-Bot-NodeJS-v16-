@@ -175,7 +175,7 @@ client.on('interactionCreate', async interaction => {
 });
 
 
-const {TOKEN} = require ("./configT.json");
+//const {TOKEN} = require ("./configT.json");
 const { moveMessagePortToContext } = require("node:worker_threads");
 client.login(process.env.TOKEN);
 
