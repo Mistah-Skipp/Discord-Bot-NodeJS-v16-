@@ -1,10 +1,7 @@
-
 const { REST, SlashCommandBuilder, Routes } = require('discord.js');
 const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
 const path = require('node:path');
 const fs = require('node:fs');
-=======
-
 
 const commands = [];
 const commandsPath = path.join(__dirname, 'commands');//get loication of command folder
@@ -16,8 +13,6 @@ for (const file of commandFiles) {//for all files in array, append dirPath,set c
 	const command = require(filePath);
 	commands.push(command.data.toJSON());
 }
-=======
-const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
 
 rest.put(
 	Routes.applicationCommands(process.env.clientID),
