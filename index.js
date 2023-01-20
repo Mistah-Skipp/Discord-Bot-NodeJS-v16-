@@ -1,5 +1,5 @@
 //const keepAlive = require("./keepAlive.js");
-import { Client, GatewayIntentBits, Options, Collection } from './node_modules/discord.js';
+import { Client, GatewayIntentBits, Options, Collection } from './node_modules/discord.js/src/index.js';
 import { readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
