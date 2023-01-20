@@ -1,17 +1,30 @@
-const keepAlive = require("./keepAlive.js");
-const { Client, GatewayIntentBits} = require('discord.js');
+//const keepAlive = require("./keepAlive.js");
+const { Client, GatewayIntentBits, Options, Collection} = require('discord.js');
 const fs = require('node:fs');
+const path = require('node:path');
 //const { REST } = require('@discordjs/rest');
 
-
 const client = new Client({ intents: [
-    GatewayIntentBits.Guilds,                                  GatewayIntentBits.GuildMessages,                           GatewayIntentBits.MessageContent,                          GatewayIntentBits.GuildPresences] });
+    GatewayIntentBits.Guilds,GatewayIntentBits.GuildMessages,GatewayIntentBits.MessageContent,GatewayIntentBits.GuildPresences] });
+
+client.commands = new Collection();
+const commandsPath = path.join(__dirname, 'commands');
+const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+	const filePath = path.join(commandsPath, file);
+	const command = require(filePath);
+	client.commands.set(command.data.name, command);
+}
+console.log("commands loaded!")
+
+
 
 
 client.once('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
     client.user.setStatus('online');
-    client.user.setActivity("type /help for commands")
+    client.user.setActivity("")
 });
 
 client.on("messageDelete", message =>{
@@ -44,14 +57,6 @@ client.on('messageCreate', message =>{
                 if(args[cntr+1] == "wars"){
                 message.channel.send({files:["./imgs/atsts.gif"]});
                 }
-                cntr++;
-                break;
-            case "/rename":
-                let pingedMember = message.mentions.members;
-                var userIDCache = pingedMember.firstKey();
-                var newName = message.guild.members.cache.get(userIDCache);
-                newName.setNickname(args[cntr+2]);
-                message.channel.send("done");
                 cntr++;
                 break;
             default:
@@ -161,37 +166,26 @@ client.on('messageCreate', message =>{
         }//closing brace on chance to respond
     }//closing brace for role check
 
-});
+});//EOF MESSAGECREATE
+
 client.on('interactionCreate', async interaction => {
 	if (!interaction.isChatInputCommand()) return;
 
-	const { commandName } = interaction;
+	const command = interaction.client.commands.get(interaction.commandName);
+    if(!command) return;
 
-	if (commandName === 'ping') {
-		await interaction.reply('Pong!');
-	} else if(commandName === 'help'){
-        await interaction.reply('ping: replys with pong\nrename: [@userToBeChanged] [newName]');
+    try{
+        await command.execute(interaction);
+    } catch(err) {
+        console.log(err);
+        await interaction.reply("error executing command");
     }
+
 });
 
-
-//const {TOKEN} = require ("./config.json");
-const { moveMessagePortToContext } = require("node:worker_threads");
 client.login(process.env.TOKEN);
 
 //FUNCTIONS
-
-
-/* 
-KARP:
-config.json
-id:836766089505275954
-
-TEST:
-configT.json
-id:1017612126921166871
-
-*/
 
 
 
