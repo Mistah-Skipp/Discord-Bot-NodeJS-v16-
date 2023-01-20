@@ -1,4 +1,4 @@
-const keepAlive = require("./keepAlive.js");
+//const keepAlive = require("./keepAlive.js");
 const { Client, GatewayIntentBits, Options, Collection} = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -16,6 +16,7 @@ for (const file of commandFiles) {
 	const command = require(filePath);
 	client.commands.set(command.data.name, command);
 }
+console.log("commands loaded!")
 
 
 
@@ -23,7 +24,7 @@ for (const file of commandFiles) {
 client.once('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
     client.user.setStatus('online');
-    client.user.setActivity("type /help for commands")
+    client.user.setActivity("")
 });
 
 client.on("messageDelete", message =>{
@@ -56,14 +57,6 @@ client.on('messageCreate', message =>{
                 if(args[cntr+1] == "wars"){
                 message.channel.send({files:["./imgs/atsts.gif"]});
                 }
-                cntr++;
-                break;
-            case "/rename":
-                let pingedMember = message.mentions.members;
-                var userIDCache = pingedMember.firstKey();
-                var newName = message.guild.members.cache.get(userIDCache);
-                newName.setNickname(args[cntr+2]);
-                message.channel.send("done");
                 cntr++;
                 break;
             default:
@@ -179,6 +172,7 @@ client.on('interactionCreate', async interaction => {
 	if (!interaction.isChatInputCommand()) return;
 
 	const command = interaction.client.commands.get(interaction.commandName);
+    if(!command) return;
 
     try{
         await command.execute(interaction);
@@ -189,30 +183,13 @@ client.on('interactionCreate', async interaction => {
 
 });
 
-/*
-    client.login(process.env.TOKEN);
-    const { moveMessagePortToContext } = require("node:worker_threads");
-*/
-    const {TOKEN} = require ("./config.json");
-    client.login(TOKEN);
+client.login(process.env.TOKEN);
 
 
 
 
 
 //FUNCTIONS
-
-
-/* 
-KARP:
-config.json
-id:836766089505275954
-
-TEST:
-configT.json
-id:1017612126921166871
-
-*/
 
 
 
